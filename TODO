@@ -1,0 +1,32 @@
+We have the following:
+
+[X] Attributes
+[X] Batch setting attributes
+[X] Attribute quoting
+[X] Properties
+[ ] Typecasting for properties
+[ ] Properties without explicit types
+[ ] Validations
+[ ] Get find_one working
+[ ] Primary keys
+[ ] Create/update
+[ ] Events/hooks/filters
+[ ] STI
+[ ] has_many/belongs_to
+[ ] acts_as_list
+[ ] acts_as_tree
+
+interesting problems:
+ - add serialize type for attribute
+ - properties/attributes still need a bit of thought
+ - need a way of creating new property types (or maybe something simple like capital letter for class)
+ - serialization contract for objects (e.g. money/date/address)
+ - belongs_to is going to need to be able to override a setter for its associated _id method
+
+
+Once we have this all done, let's go for a public release (that and BasePHP)
+
+---
+
+[ ] complex finders
+[ ] eager loading

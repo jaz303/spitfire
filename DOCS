@@ -1,0 +1,63 @@
+
+
+Attributes
+----------
+
+A model class has exactly one attribute for each underlying database field, and this attribute is backed by an instance variable of the same name.
+
+The only exception are autonumber/serial fields, which are not regarded as attributes. This might change.
+
+Valid types for attributes:
+
+	- boolean
+	- date
+	- datetime
+	- float
+	- integer
+	- serialize
+	- string
+	
+These types map directly to underlying database types, except serialize - which is first passed
+through PHP's serialize() function before being stored in the DB as a string. It is your responsbility to ensure that anything stored in serialized attributes is safe for serialization.
+
+During code generation, an attribute will generate a corresponding instance variable if none is defined.
+
+Properties
+----------
+
+Valid types for properties:
+
+	- boolean
+	- date
+	- datetime
+	- float
+	- integer
+	- serialize
+	- string
+	- ClassName
+	
+During code generation, a property will generate a corresponding getter and setter for each property if none is defined.
+
+Scalar properties are always backed by an attribute of the same name.
+Because attributes are always type-safe, a corollary to this is that 
+	
+When a class used as a property, any number of attributes will be automatically generated based on the needs of the class. The class must implement a bunch of static methods:
+
+	Money::persistence_attributes()
+	-> array('i:cents' => 'cents',
+					 'i:currency' => 'currency')
+					
+The keys define the types and names of the attributes required by this class, and the values define the getter methods on the instances.
+
+	Money::parse_from_model_assignment($base_name, $array) {
+		
+	}
+
+	Money::awake_from_persistence($cents, $currency) {
+		return new Money($cents, $currency);
+	}
+	
+Additionally, the definition of this class must be available at code generation time.
+
+Generated properties will also define $foo_before_typecast and get_foo_before_typecast()
+
