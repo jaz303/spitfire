@@ -1,0 +1,29 @@
+<?php
+require dirname(__FILE__) . '/vendor/superload/superload.php';
+
+task("autoload", function() {
+	
+	$superload = new superload\Superload(dirname(__FILE__));
+	$superload->add_rule('vendor/base-php/inc');
+	$superload->add_rule('vendor/spitfire/runtime');
+	
+	$superload->write(dirname(__FILE__) . '/runtime.php');
+	
+});
+
+group("spitfire", function() {
+  task("compile", function() {
+    
+    require_once dirname(__FILE__) . '/vendor/spitfire/backend.php';
+    
+    $builder = new spitfire\Builder;
+  
+    $builder->build();
+  });
+  
+  desc("Copy dev project back to spitfire repo");
+  task("copy_back_dev", function() {
+    `cp -R phake Phakefile runtime.php classes vendor/spitfire/dev`;
+  });
+});
+?>
