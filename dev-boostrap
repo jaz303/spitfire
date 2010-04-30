@@ -1,0 +1,42 @@
+#!/bin/bash
+
+if [ -z $1 -o -z $2 ]
+then
+    echo "Usage: $0 github_username target_dir"
+    exit 1
+fi
+
+GITHUB_USERNAME=$1
+TARGET_DIR=$2
+
+function clone_repository {
+    HTTP_OWN="http://github.com/${GITHUB_USERNAME}/${1}"
+    GIT_OWN="git@github.com:${GITHUB_USERNAME}/${1}.git"
+    GIT_READ_ONLY="git://github.com/jaz303/${1}.git"
+    
+    STATUS=`curl --write-out %{http_code} --silent --output /dev/null $HTTP_OWN`
+    if [ $STATUS!="404" ]
+    then
+        REPOSITORY=$GIT_OWN
+        echo "${1}: read/write"
+    else
+        REPOSITORY=$GIT_READ_ONLY
+        echo "${1}: read-only"
+    fi
+    
+    git clone ${REPOSITORY} "vendor/${1}"  &> /dev/null
+}
+    
+echo "creating directory $TARGET_DIR"
+mkdir -p $TARGET_DIR
+cd $TARGET_DIR
+
+mkdir -p vendor
+clone_repository "base-php"
+clone_repository "phake"
+clone_repository "superload"
+clone_repository "spitfire"
+
+test -d vendor/spitfire/dev && cp -R vendor/spitfire/dev/* .
+
+exit 0
