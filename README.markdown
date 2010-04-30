@@ -13,7 +13,13 @@ Dependencies
   * [phake]("http://github.com/jaz303/phake")
   * [superload]("http://github.com/jaz303/superload")
 
-Getting up-and-running is a bit of a hassle at the moment. As a priority I'll be writing a script to check out the related projects and knit them together in a fashion suitable for testing/development.
+Hacking
+-------
+
+  * Clone the main `spitfire` repo, and any of its dependencies you're going to want to change
+  * Copy the `dev-bootstrap` script from the `spitfire` project root to your filesystem
+  * From the console, invoke `./dev-bootstrap your_github_username target_dir`
+  * A skeleton project will be set up in `target_dir`, preferring any dependencies you've cloned (for read/write access), and falling back to the original read-only versions.
 
 Basic Concepts
 --------------
